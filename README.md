@@ -49,7 +49,7 @@ Electro Mix Studio
     ・操作音
 
 ### 画面遷移図
-    https://gyazo.com/b522bf6d16b6de9ac1c7b28d5b22be93
+    https://gyazo.com/16df389716df44344e1a6e47cdc6e2d2
 
 ## 使い方
     * ログインしトップページにアクセスすると、音楽制作画面が表示されます。
