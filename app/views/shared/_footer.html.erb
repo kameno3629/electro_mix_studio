@@ -1,0 +1,12 @@
+<!-- app/views/layouts/_footer.html.erb -->
+
+<% if controller_name == 'home' %>
+  <%= link_to "プライバシーポリシー", privacy_policy_path %> 
+  <%= link_to "問い合わせフォーム", inquiry_path %> 
+  <%= link_to "利用規約", terms_path %>
+<% elsif ['login', 'signup', 'privacy_policy', 'inquiry', 'inquiry_confirmation', 'inquiry_complete', 'terms'].include? controller_name %>
+  <%= link_to "プライバシーポリシー", privacy_policy_path %> 
+  <%= link_to "問い合わせフォーム", new_inquiry_path %>
+  <%= link_to "利用規約", terms_path %>
+<% else %>
+<% end %>

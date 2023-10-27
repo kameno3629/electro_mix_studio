@@ -1,0 +1,26 @@
+
+<!-- app/views/inquiries/confirm.html.erb -->
+
+<%# ヘッダー部分 %>
+<%= render 'layouts/header' %>
+
+<h1>問い合わせ内容の確認</h1>
+
+<p>
+  <strong>名前:</strong>
+</p>
+
+<p>
+  <strong>メールアドレス:</strong>
+</p>
+
+<p>
+  <strong>メッセージ:</strong>
+</p>
+
+<%= link_to "問い合わせる", thanks_inquiries_path %>
+
+<%# ヘッダーにトップ画面ボタンを追加。layouts/headerに以下の内容を追加。 %>
+<%= link_to "トップ画面", root_path %>
+
+<%# %>
