@@ -52,4 +52,4 @@ Electro Mix Studio
     ・操作音
 
 ### 画面遷移図
-    https://gyazo.com/16df389716df44344e1a6e47cdc6e2d2
+    https://gyazo.com/e8e59004228403318a329cb0904cec47
