@@ -53,3 +53,6 @@ Electro Mix Studio
 
 ### 画面遷移図
   https://gyazo.com/4d812bd66322d4107f97af7fdfb60845
+
+### ER図
+    https://gyazo.com/bd7fedb37a15da033292e84dd9c9a24e
