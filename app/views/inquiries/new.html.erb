@@ -4,9 +4,28 @@
 <%# ヘッダー部分 %>
 <%= render 'layouts/header' %>
 
-<h1>問い合わせ内容入力画面</h1>
+<h1>問い合わせ</h1>
 
-<%= link_to "問い合わせ確認画面へ", confirm_inquiries_path %>
+<%= form_for @inquiry do |f| %>
+  <div class="form-group">
+    <%= f.label :name, "名前" %>
+    <%= f.text_field :name, class: 'form-control', required: true %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :email, "メールアドレス" %>
+    <%= f.email_field :email, class: 'form-control', required: true %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :message, "メッセージ" %>
+    <%= f.text_area :message, class: 'form-control', rows: 7, required: true %>
+  </div>
+
+  <div class="actions">
+    <%= link_to "問い合わせ確認画面へ", confirm_inquiries_path %>
+  </div>
+<% end %>
 
 <%# ヘッダーにトップ画面ボタンを追加。layouts/headerに以下の内容を追加。 %>
 <%= link_to "トップ画面", root_path %>

@@ -4,9 +4,28 @@
 <%= render 'layouts/header' %>
 
 <h1>プロフィール編集</h1>
-<%= link_to "更新", user_path %>
+
+<%= form_for @user do |f| %>
+  <div class="form-group">
+    <%= f.label :name, "名前" %>
+    <%= f.text_field :name, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :email, "メールアドレス" %>
+    <%= f.email_field :email, class: 'form-control' %>
+  </div>
+
+  <%# その他の編集項目を追加 %>
+
+  <div class="actions">
+  <%= link_to "更新", user_path(@user) %>
+  </div>
+<% end %>
 
 <%# マイページへのボタン %>
-<%= link_to "マイページに戻る", user_path %>
+<%= link_to "マイページ", user_path(@user) %>
 
-<%# %>
+<%# ヘッダーにメイン画面ボタンを追加。layouts/headerに以下の内容を追加。 %>
+<%= link_to "メイン画面", main_path %>
+

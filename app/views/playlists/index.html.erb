@@ -1,4 +1,3 @@
-
 <!-- app/views/playlists/index.html.erb -->
 
 <%# ヘッダー部分 %>
@@ -7,8 +6,17 @@
 <h1>プレイリスト一覧</h1>
 
 <%# プレイリスト一覧の表示 %>
+<section class="playlist-list">
+  <% @playlists.each do |playlist| %>
+    <div class="playlist-item">
+      <h2><%= playlist.name %></h2>
+      <p><%= playlist.description %></p>
+      <%# プレイリスト編集画面へのボタン %>
+      <%= link_to "編集", edit_playlist_path(playlist) %>
+    </div>
+  <% end %>
+</section>
 
-
-<%= link_to "編集", main_path %>
-
+<%# ヘッダーにメイン画面ボタンを追加します。layouts/headerに以下の内容を追加します。 %>
+<%= link_to "メイン画面", main_path %>
 
