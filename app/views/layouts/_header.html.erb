@@ -1,0 +1,25 @@
+<!-- app/views/layouts/_header.html.erb -->
+
+<% if controller_name == 'home' %>
+  <%= link_to "ログイン", login_path %> 
+  <%= link_to "登録", signup_path %>
+<% elsif controller_name == 'login' %>
+  <%= link_to "トップ画面", root_path %>
+<% elsif controller_name == 'signup' %>
+  <%= link_to "トップ画面", root_path %>
+<% elsif controller_name == 'main' %>
+  <%= link_to "プレイリスト一覧", playlists_path %> 
+  <%= link_to "マイページ", user_path(1) %> <!-- ここをダミーのIDで一時的に修正 -->
+  <%= link_to "トップ画面", root_path %>
+<% elsif controller_name == 'playlists' %>
+  <%= link_to "メイン画面", main_path %>
+<% elsif controller_name == 'privacy_policy' %>
+  <%= link_to "トップ画面", root_path %>
+<% elsif ['inquiry', 'inquiry_confirmation', 'inquiry_complete'].include? controller_name %>
+  <%= link_to "トップ画面", root_path %>
+<% elsif controller_name == 'terms' %>
+  <%= link_to "トップ画面", root_path %>
+<% elsif ['mypage', 'edit'].include? controller_name %>
+  <%= link_to "メイン画面", main_path %>
+<% end %>
+
