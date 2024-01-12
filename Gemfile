@@ -34,3 +34,6 @@ group :test do
   gem 'webdrivers', '= 5.3.0'
 end
 
+gem 'jsbundling-rails'
+gem 'react-rails'
+gem 'webpacker', '~> 5.0'
