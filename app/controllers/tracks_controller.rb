@@ -2,6 +2,7 @@
 class TracksController < ApplicationController
   def index
     @tracks = Track.all
+    render json: @tracks
   end
 
   def show
@@ -11,9 +12,9 @@ class TracksController < ApplicationController
   def create
     @track = Track.new(track_params)
     if @track.save
-      # 成功の処理
+      render json: @track, status: :created
     else
-      # 失敗の処理
+      render json: @track.errors, status: :unprocessable_entity
     end
   end
 

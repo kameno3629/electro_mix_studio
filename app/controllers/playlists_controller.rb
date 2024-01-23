@@ -11,9 +11,9 @@ class PlaylistsController < ApplicationController
   def create
     @playlist = Playlist.new(playlist_params)
     if @playlist.save
-      # 成功の処理
+      render json: @playlist, status: :created
     else
-      # 失敗の処理
+      render json: @playlist.errors, status: :unprocessable_entity
     end
   end
 

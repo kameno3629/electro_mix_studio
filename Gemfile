@@ -37,3 +37,4 @@ end
 gem 'jsbundling-rails'
 gem 'react-rails'
 gem 'webpacker', '~> 5.0'
+gem 'bcrypt', '~> 3.1.7'

@@ -1,35 +1,35 @@
-// app/javascript/components/TrackList.js
-import React, { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
-import { gsap } from 'gsap';
+// app/javascript/components/TrackDropZone.js
+import React, { useState } from 'react';
+import { useDrop } from 'react-dnd';
 
-function TrackList() {
-  const [tracks, setTracks] = useState([]);
-  const listRef = useRef(null);
-
-  useEffect(() => {
-    axios.get('/tracks')
-      .then(response => {
-        setTracks(response.data);
-        // GSAPアニメーションの追加
-        gsap.from(listRef.current, { duration: 1, opacity: 0, y: -20 });
-      })
-      .catch(error => {
-        console.error("Error fetching tracks", error);
-      });
-  }, []);
+function TrackDropZone({ onDrop }) {
+  const [droppedTrackId, setDroppedTrackId] = useState(null);
+  const [{ isOver }, dropRef] = useDrop(() => ({
+    accept: "TRACK",
+    drop: (item, monitor) => {
+      onDrop(item.id);
+      setDroppedTrackId(item.id); // ドロップされたトラックのIDを状態に保存
+    },
+    collect: monitor => ({
+      isOver: !!monitor.isOver(),
+    }),
+  }));
 
   return (
-    <div ref={listRef} className="p-4">
-      <h2 className="text-2xl font-bold mb-4">Tracks</h2>
-      <ul className="list-disc pl-5">
-        {tracks.map(track => (
-          <li key={track.id} className="mb-2">{track.name}</li>
-        ))}
-      </ul>
+    <div ref={dropRef} style={{ 
+        backgroundColor: isOver ? 'lightgreen' : 'white',
+        border: '2px dashed gray',
+        padding: '10px',
+        margin: '10px 0',
+        minHeight: '100px'
+    }}>
+      {droppedTrackId && <p>Dropped Track ID: {droppedTrackId}</p>}
     </div>
   );
 }
 
-export default TrackList;
+export default TrackDropZone;
+
+
+
 
