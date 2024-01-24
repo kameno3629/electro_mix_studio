@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # app/models/track.rb
 class Track < ApplicationRecord
   belongs_to :user

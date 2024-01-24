@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # app/models/track_row.rb
 class TrackRow < ApplicationRecord
   belongs_to :track

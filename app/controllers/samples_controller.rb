@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # app/controllers/samples_controller.rb
 class SamplesController < ApplicationController
   def index

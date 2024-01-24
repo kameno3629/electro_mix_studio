@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # app/controllers/tracks_controller.rb
 class TracksController < ApplicationController
   def index
@@ -6,21 +8,23 @@ class TracksController < ApplicationController
   end
 
   def show
-    @track = Track.find(params[:id])
+    track = Track.find(params[:id])
+    render json: track
   end
 
   def create
     @track = Track.new(track_params)
     if @track.save
-      render json: @track, status: :created
+      redirect_to @track, notice: 'Track was successfully created.'
     else
-      render json: @track.errors, status: :unprocessable_entity
+      logger.error @track.errors.full_messages # バリデーションエラーのログ出力
+      render :new, status: :unprocessable_entity
     end
   end
 
-  def show
-    track = Track.find(params[:id])
-    render json: track
+  def edit
+    @track = Track.find(params[:id])
+    render json: @track # JSON レスポンスを返す
   end
 
   def update
@@ -39,9 +43,8 @@ class TracksController < ApplicationController
   end
 
   private
-
   def track_params
-    params.require(:track).permit(:name, :data, :pitch_adjustment, :tempo_adjustment, :frame_length)
+    params.require(:track).permit(:name, :user_id) # 'frame_length'や'tempo_adjustment'を削除
   end
-end
 
+end

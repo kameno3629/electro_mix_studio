@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # app/models/playlist.rb
 class Playlist < ApplicationRecord
   belongs_to :user

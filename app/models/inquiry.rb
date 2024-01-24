@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # app/models/inquiry.rb
 class Inquiry < ApplicationRecord
   belongs_to :user
@@ -5,4 +7,3 @@ class Inquiry < ApplicationRecord
   # バリデーションの例
   validates :content, presence: true
 end
-

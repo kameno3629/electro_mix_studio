@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # app/controllers/playlists_controller.rb
 class PlaylistsController < ApplicationController
   def index
@@ -38,4 +40,3 @@ class PlaylistsController < ApplicationController
     params.require(:playlist).permit(:name)
   end
 end
-
