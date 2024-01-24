@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_01_08_024012) do
+ActiveRecord::Schema[7.0].define(version: 2024_01_23_135954) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -76,6 +76,16 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_08_024012) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "sections", force: :cascade do |t|
+    t.string "name"
+    t.integer "track_id"
+    t.integer "position"
+    t.integer "length"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["track_id"], name: "index_sections_on_track_id"
+  end
+
   create_table "track_rows", force: :cascade do |t|
     t.bigint "track_id", null: false
     t.integer "row_position"
@@ -100,10 +110,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_08_024012) do
   create_table "tracks", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "name"
-    t.json "data"
-    t.integer "pitch_adjustment"
-    t.integer "tempo_adjustment"
-    t.integer "frame_length"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_tracks_on_user_id"

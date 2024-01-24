@@ -18,6 +18,11 @@ class TracksController < ApplicationController
     end
   end
 
+  def show
+    track = Track.find(params[:id])
+    render json: track
+  end
+
   def update
     @track = Track.find(params[:id])
     if @track.update(track_params)

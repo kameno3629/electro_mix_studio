@@ -1,10 +1,10 @@
-// app/javascript/components/DraggableTrack.js
+// app/javascript/components/SampleItem.js
 import React from 'react';
 import { useDrag } from 'react-dnd';
 
-function DraggableTrack({ id, name }) {
+function SampleItem({ id, name, type, length }) {
   const [{ isDragging }, dragRef] = useDrag(() => ({
-    type: "SAMPLE", // ここが "TRACK" から "SAMPLE" に変更されていることを確認
+    type: 'SAMPLE',
     item: { id },
     collect: monitor => ({
       isDragging: !!monitor.isDragging(),
@@ -13,10 +13,9 @@ function DraggableTrack({ id, name }) {
 
   return (
     <div ref={dragRef} style={{ opacity: isDragging ? 0.5 : 1 }}>
-      {name}
+      {name} - {type} ({length})
     </div>
   );
 }
 
-export default DraggableTrack;
-
+export default SampleItem;
