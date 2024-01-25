@@ -8,7 +8,6 @@ class Sample < ApplicationRecord
   validates :name, presence: true
   validates :file_path, presence: true
   validates :length, numericality: { only_integer: true, greater_than: 0 }, allow_nil: true
-  validates :type, presence: true
 
   # その他のバリデーションを必要に応じて追加
 end

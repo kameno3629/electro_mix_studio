@@ -1,15 +1,9 @@
-# frozen_string_literal: true
-
 Rails.application.routes.draw do
-  root 'home#index'
+  root 'home#index' # HomeControllerのindexアクションが存在することを確認
   resources :audio_files, only: [:new, :create]
-  resources :playlists, only: %i[index show create update destroy]
+  resources :playlists
   resources :users, only: %i[new create show]
   resources :samples, only: %i[index show create destroy]
-  resources :tracks do
-    collection do
-      get 'create', to: 'tracks#create' # "/tracks/create" を "create" アクションにリダイレクト
-    end
-  end
+  resources :tracks
   # その他のルートが必要な場合はここに追加
 end
