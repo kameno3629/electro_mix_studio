@@ -2,6 +2,7 @@
 
 Rails.application.routes.draw do
   root 'home#index'
+  resources :audio_files, only: [:new, :create]
   resources :playlists, only: %i[index show create update destroy]
   resources :users, only: %i[new create show]
   resources :samples, only: %i[index show create destroy]
