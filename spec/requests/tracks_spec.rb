@@ -3,53 +3,55 @@ require 'rails_helper'
 RSpec.describe "Tracks", type: :request do
   describe "GET /index" do
     it "returns http success" do
-      get "/tracks" # ルーティングを修正し、"/tracks" にアクセスするように変更
+      get "/tracks"
       expect(response).to have_http_status(:success)
     end
   end
 
   describe "GET /show" do
     it "returns http success" do
-      user = FactoryBot.create(:user) # Userモデルを作成
-      track = FactoryBot.create(:track, user: user) # テストデータを作成し、関連するUserを指定
-      get "/tracks/#{track.id}" # テストデータのIDを使用して "/tracks/:id" にアクセスするように変更
+      user = FactoryBot.create(:user)
+      track = FactoryBot.create(:track, user: user)
+      get "/tracks/#{track.id}"
       expect(response).to have_http_status(:success)
     end
   end
 
   describe "POST /create" do
     it "returns http success" do
-      # 有効なトラックのパラメータを作成する
+      user = FactoryBot.create(:user) # FactoryBot を使用してユーザーを生成
       valid_track_params = {
         name: "Valid Track Name",
-        tempo_adjustment: 120,
-        frame_length: 1000
+        user_id: user.id, # 生成したユーザーの ID を使用
+        tempo_adjustment: 120 # tempo_adjustment パラメーターを含む
       }
-
-      # /tracks に POST リクエストを送信し、有効なパラメータを含める
+  
       post "/tracks", params: { track: valid_track_params }
   
-      # リクエストが成功したことを検証
+      # リダイレクトをフォローして、リダイレクト先のHTTPステータスを確認
+      follow_redirect!
+      
       expect(response).to have_http_status(:success)
     end
   end  
 
   describe "GET /update" do
     it "returns http success" do
-      user = FactoryBot.create(:user) # Userモデルを作成
-      track = FactoryBot.create(:track, user: user) # テストデータを作成し、関連するUserを指定
-      get "/tracks/#{track.id}/edit" # テストデータのIDを使用して "/tracks/:id/edit" にアクセスするように変更
+      user = FactoryBot.create(:user)
+      track = FactoryBot.create(:track, user: user)
+      get "/tracks/#{track.id}/edit"
       expect(response).to have_http_status(:success)
     end
   end
 
   describe "GET /destroy" do
     it "returns http success" do
-      user = FactoryBot.create(:user) # Userモデルを作成
-      track = FactoryBot.create(:track, user: user) # テストデータを作成し、関連するUserを指定
-      delete "/tracks/#{track.id}" # テストデータのIDを使用して削除リクエストを送信するように変更
+      user = FactoryBot.create(:user)
+      track = FactoryBot.create(:track, user: user)
+      delete "/tracks/#{track.id}"
       expect(response).to have_http_status(:success)
     end
   end
 end
+
 

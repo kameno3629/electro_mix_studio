@@ -44,7 +44,7 @@ class TracksController < ApplicationController
 
   private
   def track_params
-    params.require(:track).permit(:name, :user_id) # 'frame_length'や'tempo_adjustment'を削除
-  end
+    params.require(:track).permit(:name, :user_id, :tempo_adjustment)
+  end  
 
 end
