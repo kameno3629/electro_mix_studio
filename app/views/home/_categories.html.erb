@@ -1,0 +1,13 @@
+<% categories.each do |category| %>
+    <div class="category">
+      <h3 onclick="toggleCategory(this);"><%= category.name %></h3>
+      <div class="audio-files" style="display: none;">
+        <% category.audio_files.each do |audio_file| %>
+          <div class="audio-file" draggable="true" data-audio-id="<%= audio_file.id %>">
+            <%= audio_file.name %>
+          </div>
+        <% end %>
+        <%= render partial: 'categories', locals: { categories: category.children } if category.children.any? %>
+      </div>
+    </div>
+<% end %>

@@ -1,2 +1,29 @@
-<%= react_component("MainPage") %>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Electro Mix Studio</title>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Electro Mix Studio</h1>
+    </header>
 
+    <div class="audio-library">
+      <h2>Audio Library</h2>
+      <%= render partial: 'categories', locals: { categories: AudioCategory.roots } %>
+    </div>
+
+    <div class="track-area">
+      <h2>Track Area</h2>
+      <div class="tracks" id="tracks">
+        <!-- ユーザーが音源を配置するトラック -->
+      </div>
+    </div>
+  </div>
+
+  <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+</body>
+</html>

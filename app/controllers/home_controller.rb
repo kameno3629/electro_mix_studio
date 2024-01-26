@@ -1,5 +1,5 @@
-# frozen_string_literal: true
-
 class HomeController < ApplicationController
-  def index; end
+  def index
+    @audio_files = AudioFile.all
+  end
 end

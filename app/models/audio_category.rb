@@ -1,4 +1,5 @@
 class AudioCategory < ApplicationRecord
     has_many :audio_files
-  end
+    has_ancestry
+end
   

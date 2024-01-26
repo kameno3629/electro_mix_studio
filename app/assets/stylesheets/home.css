@@ -1,0 +1,12 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.audio-library {
+  width: 50%;
+}
+
+.track-area {
+  width: 50%;
+}

@@ -1,2 +1,4 @@
-<h1>Samples#index</h1>
-<p>Find me in app/views/samples/index.html.erb</p>
+<% @samples.each do |sample| %>
+    <%= link_to sample.name, sample_path(sample) %>
+    <%= link_to 'Delete', sample_path(sample), method: :delete, data: { confirm: 'Are you sure?' } %>
+<% end %>

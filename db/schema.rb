@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_01_25_081444) do
+ActiveRecord::Schema[7.0].define(version: 2024_01_26_210055) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -46,6 +46,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_25_081444) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "ancestry"
+    t.index ["ancestry"], name: "index_audio_categories_on_ancestry"
   end
 
   create_table "audio_files", force: :cascade do |t|
@@ -58,6 +60,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_25_081444) do
     t.text "description"
     t.integer "bpm"
     t.string "format"
+    t.string "audio_path"
     t.index ["audio_category_id"], name: "index_audio_files_on_audio_category_id"
   end
 
@@ -87,15 +90,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_25_081444) do
     t.index ["user_id"], name: "index_playlists_on_user_id"
   end
 
-  create_table "samples", force: :cascade do |t|
-    t.string "name"
-    t.string "file_path"
-    t.text "description"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "length"
-  end
-
   create_table "sections", force: :cascade do |t|
     t.string "name"
     t.integer "track_id"
@@ -106,6 +100,28 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_25_081444) do
     t.index ["track_id"], name: "index_sections_on_track_id"
   end
 
+  create_table "sound_sources", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.integer "length"
+    t.string "key"
+    t.integer "bpm"
+    t.string "format"
+    t.bigint "audio_category_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["audio_category_id"], name: "index_sound_sources_on_audio_category_id"
+  end
+
+  create_table "track_audio_files", force: :cascade do |t|
+    t.bigint "track_id", null: false
+    t.bigint "audio_file_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["audio_file_id"], name: "index_track_audio_files_on_audio_file_id"
+    t.index ["track_id"], name: "index_track_audio_files_on_track_id"
+  end
+
   create_table "track_rows", force: :cascade do |t|
     t.bigint "track_id", null: false
     t.integer "row_position"
@@ -114,17 +130,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_25_081444) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["track_id"], name: "index_track_rows_on_track_id"
-  end
-
-  create_table "track_sample_frames", force: :cascade do |t|
-    t.bigint "track_id", null: false
-    t.bigint "sample_id", null: false
-    t.integer "row_id"
-    t.integer "frame_position"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["sample_id"], name: "index_track_sample_frames_on_sample_id"
-    t.index ["track_id"], name: "index_track_sample_frames_on_track_id"
   end
 
   create_table "tracks", force: :cascade do |t|
@@ -151,8 +156,9 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_25_081444) do
   add_foreign_key "playlist_tracks", "playlists"
   add_foreign_key "playlist_tracks", "tracks"
   add_foreign_key "playlists", "users"
+  add_foreign_key "sound_sources", "audio_categories"
+  add_foreign_key "track_audio_files", "audio_files"
+  add_foreign_key "track_audio_files", "tracks"
   add_foreign_key "track_rows", "tracks"
-  add_foreign_key "track_sample_frames", "samples"
-  add_foreign_key "track_sample_frames", "tracks"
   add_foreign_key "tracks", "users"
 end

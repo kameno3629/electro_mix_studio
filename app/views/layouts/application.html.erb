@@ -1,14 +1,23 @@
-<!-- app/views/layouts/application.html.erb -->
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Sound Source UI</title>
-  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload' %>
-  <%= javascript_pack_tag 'application', 'data-turbo-track': 'reload' %>
+  <title>My Application</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
 </head>
+
 <body>
-  <div id="sound-source-ui">
-    <!-- ここに音源をドラッグ&ドロップできるUI要素を設計します -->
-  </div>
+  <header>
+    <!-- ヘッダーの内容 -->
+  </header>
+
+  <%= yield %>
+
+  <footer>
+    <!-- フッターの内容 -->
+  </footer>
 </body>
 </html>

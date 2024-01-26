@@ -12,7 +12,8 @@ function MainPage() {
   useEffect(() => {
     axios.get('/tracks')
       .then(response => {
-        setTracks(response.data);
+        console.log(response.data.data);
+        setTracks(Array.isArray(response.data.data) ? response.data.data : []);
       })
       .catch(error => {
         console.error("Error fetching tracks", error);

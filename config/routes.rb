@@ -3,7 +3,11 @@ Rails.application.routes.draw do
   resources :audio_files, only: [:new, :create]
   resources :playlists
   resources :users, only: %i[new create show]
-  resources :samples, only: %i[index show create destroy]
+  resources :samples, only: %i[index show create destroy] do
+    member do
+      get 'audio' # サンプルの音声データを取得するためのエンドポイント
+    end
+  end
   resources :tracks
   # その他のルートが必要な場合はここに追加
 end

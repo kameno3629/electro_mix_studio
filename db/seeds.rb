@@ -1,64 +1,73 @@
-# db/seeds.rb
+require 'find'
+require 'waveinfo'
+require 'aws-sdk-s3'  # AWS SDK for Ruby
 
-audio_categories = [
-  { name: 'ドラムとリズムセクション', samples: [
-      { name: 'キックドラム1', description: '深みのある低音', length: 1.0, key: 'A', bpm: 120, format: 'wav' },
-      { name: 'スネア1', description: 'クリアな音色', length: 0.5, key: 'C', bpm: 140, format: 'wav' },
-      # 他のドラム音源を追加...
-    ]
-  },
-  { name: 'ベースライン', samples: [
-      { name: 'サブベース1', description: '重低音のサブベース', length: 1.5, key: 'E', bpm: 100, format: 'wav' },
-      { name: 'シンセベース1', description: 'エレクトロニックなシンセベース', length: 1.2, key: 'G', bpm: 130, format: 'wav' },
-      # 他のベース音源を追加...
-    ]
-  },
-  { name: 'メロディとハーモニー', samples: [
-      { name: 'リードシンセ1', description: 'メインメロディに適したシンセリード', length: 2.0, key: 'B', bpm: 150, format: 'wav' },
-      { name: 'パッド1', description: '広がりのあるパッドサウンド', length: 2.5, key: 'D', bpm: 90, format: 'wav' },
-      # 他のメロディ・ハーモニー音源を追加...
-    ]
-  },
-  { name: 'アコースティック楽器', samples: [
-      { name: 'ピアノ1', description: 'クラシックなピアノサウンド', length: 3.0, key: 'F', bpm: 110, format: 'wav' },
-      { name: 'アコースティックギター1', description: '温かみのあるギターサウンド', length: 2.8, key: 'A', bpm: 120, format: 'wav' },
-      # 他のアコースティック楽器音源を追加...
-    ]
-  },
-  { name: 'エフェクトとトランジション', samples: [
-      { name: 'スウィープ1', description: 'ビルドアップに適したスウィープ', length: 0.8, key: 'C', bpm: 140, format: 'wav' },
-      { name: 'インパクト1', description: 'ドロップに適した強烈なインパクト', length: 0.6, key: 'E', bpm: 130, format: 'wav' },
-      # 他のエフェクト音源を追加...
-    ]
-  },
-  { name: 'アルペジオとオスティナート', samples: [
-      { name: 'アルペジオ1', description: 'エネルギッシュなアルペジオパターン', length: 1.8, key: 'G', bpm: 125, format: 'wav' },
-      { name: 'オスティナート1', description: 'リズミカルな繰り返しパターン', length: 1.6, key: 'B', bpm: 135, format: 'wav' },
-      # 他のアルペジオ・オスティナート音源を追加...
-    ]
-  },
-  { name: 'ボーカルサンプル', samples: [
-      { name: 'ボーカルフレーズ1', description: '感情的な女性ボーカルフレーズ', length: 2.2, key: 'D', bpm: 115, format: 'wav' },
-      { name: 'ボーカルワンショット1', description: '加工しやすい男性ボーカルワンショット', length: 0.4, key: 'F', bpm: 105, format: 'wav' },
-      # 他のボーカル音源を追加...
-    ]
-  }
-]
+# AWS S3クライアントの設定
+s3 = Aws::S3::Resource.new(region: 'ap-northeast-1')  # 適切なリージョンを設定
+bucket = s3.bucket('electro-mix-studio')
 
-audio_categories.each do |category|
-  created_category = AudioCategory.find_or_create_by(name: category[:name])
+# 音源ファイルが保存されているディレクトリのパス
+audio_files_dir = "/Users/kspc/Documents/EDM音源/Cymatics - Phoenix Rebirth"
 
-  category[:samples].each do |sample|
+# カテゴリを決定するためのマッピング
+category_mapping = {
+  # 他のカテゴリマッピングを追加...
+}
+
+# ディレクトリ内のすべてのサブディレクトリを再帰的に取得
+subdirs = Dir.glob("#{audio_files_dir}/**/*").select { |f| File.directory?(f) }
+
+# 各サブディレクトリに対して
+subdirs.each do |dir|
+  # カテゴリ名をサブディレクトリのパスから取得
+  category_names = dir.sub(audio_files_dir, '').split('/').reject(&:empty?)
+  parent_category = nil
+
+  # 階層的なカテゴリを作成または取得
+  category_names.each do |category_name|
+    category_name = category_mapping[category_name] || category_name
+    category_name = category_name.gsub(/Cymatics|-/, '').strip  # "Cymatics"と"-"を除去
+    parent_category = if parent_category
+                      parent_category.children.find_or_create_by(name: category_name)
+                    else
+                      AudioCategory.find_or_create_by(name: category_name)
+                    end
+  end
+
+  # サブディレクトリ内のすべての音源ファイルを取得
+  audio_files = Dir.glob("#{dir}/*.{wav,mp3}")
+
+  # 各音源ファイルをデータベースに登録
+  audio_files.each do |file|
+    next if File.directory?(file)  # ディレクトリはスキップ
+    next if File.extname(file).downcase == '.midi'  # MIDIファイルはスキップ
+
+    file_name = File.basename(file, ".*")  # ファイル名（拡張子なし）
+    file_name = file_name.gsub(/Cymatics|-/, '').strip  # "Cymatics"と"-"を除去し、余分な空白を削除
+    s3_key = "#{dir.sub(audio_files_dir, '').sub(/^\//, '')}/#{file_name}.wav"  # S3のキー
+    file_path = "https://electro-mix-studio.s3.amazonaws.com/#{s3_key}"  # S3のURL
+
+    # 音源ファイルの情報を取得
+    wave_info = WaveInfo.new(file)
+    length = wave_info.duration  # 長さを取得
+
+    # ファイル名からBPMとキーを抽出
+    bpm = file_name[/(\d+) BPM/, 1]&.to_i
+    key = file_name[/([A-G]#? [Mm]in|[A-G]#? Maj)/, 1]
+
+    # S3に音源ファイルをアップロード
+    obj = bucket.object(s3_key)
+    obj.upload_file(file)
+
     AudioFile.find_or_create_by(
-      name: sample[:name],
-      description: sample[:description],
-      length: sample[:length],
-      key: sample[:key],
-      bpm: sample[:bpm],
-      format: sample[:format],
-      audio_category: created_category
+      name: file_name,
+      description: "音源の説明",  # 適切な説明を設定
+      length: length,  # 取得した長さを設定
+      key: key,  # 抽出したキーを設定
+      bpm: bpm,  # 抽出したBPMを設定
+      format: 'wav',  # 適切なフォーマットを設定
+      audio_path: file_path,
+      audio_category: parent_category  # 作成したカテゴリを設定
     )
   end
 end
-
-

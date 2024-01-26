@@ -1,27 +1,27 @@
-// app/javascript/components/TrackDropZone.js
+// Electro_Mix_Studio/app/javascript/components/TrackDropZone.js
 import React, { useState, useEffect } from 'react';
 import { useDrop } from 'react-dnd';
 import axios from 'axios';
 
 function TrackDropZone({ onDrop }) {
-  const [droppedTrackId, setDroppedTrackId] = useState(null);
-  const [trackDetails, setTrackDetails] = useState(null);
+  const [droppedSampleId, setDroppedSampleId] = useState(null);
+  const [sampleDetails, setSampleDetails] = useState(null);
 
   useEffect(() => {
-    if (droppedTrackId) {
-      axios.get(`/tracks/${droppedTrackId}`)
+    if (droppedSampleId) {
+      axios.get(`/samples/${droppedSampleId}`)
         .then(response => {
-          setTrackDetails(response.data);
+          setSampleDetails(response.data);
         })
-        .catch(error => console.error("Error fetching track details", error));
+        .catch(error => console.error("Error fetching sample details", error));
     }
-  }, [droppedTrackId]);
+  }, [droppedSampleId]);
 
   const [{ isOver }, dropRef] = useDrop(() => ({
     accept: "SAMPLE",
     drop: (item, monitor) => {
       onDrop(item.id);
-      setDroppedTrackId(item.id);
+      setDroppedSampleId(item.id);
     },
     collect: monitor => ({
       isOver: !!monitor.isOver(),
@@ -36,10 +36,10 @@ function TrackDropZone({ onDrop }) {
         margin: '10px 0',
         minHeight: '100px'
     }}>
-      {trackDetails && (
+      {sampleDetails && (
         <div>
-          <p>Name: {trackDetails.name}</p>
-          <p>Length: {trackDetails.length}</p>
+          <p>Name: {sampleDetails.name}</p>
+          <p>Length: {sampleDetails.length}</p>
           {/* その他の詳細情報を表示 */}
         </div>
       )}
