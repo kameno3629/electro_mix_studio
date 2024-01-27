@@ -10,7 +10,6 @@ module.exports = {
   output: {
     filename: "[name].js", // 出力ファイル名
     sourceMapFilename: "[file].map", // ソースマップファイル名
-    chunkFormat: "module", // モジュール形式
     path: path.resolve(__dirname, "app/assets/builds"), // 出力ディレクトリ
   },
   plugins: [
@@ -69,4 +68,3 @@ module.exports = {
     extensions: [".js", ".jsx"], // import 時の拡張子省略
   },
 };
-

@@ -1,4 +1,0 @@
-<% @samples.each do |sample| %>
-    <%= link_to sample.name, sample_path(sample) %>
-    <%= link_to 'Delete', sample_path(sample), method: :delete, data: { confirm: 'Are you sure?' } %>
-<% end %>

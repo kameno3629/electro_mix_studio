@@ -1,0 +1,73 @@
+.container {
+    display: flex;
+    flex-direction: row; /* 子要素を水平方向に並べる */
+    gap: 20px; /* コンテナ間の間隔を設定 */
+  }
+  
+  .audio-selector {
+    background-color: #fff;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    padding: 20px;
+    height: 500px;
+    overflow-y: auto;
+    width: 30%; /* 幅を30%に設定 */
+  }
+  
+  .tracks-area {
+    /* トラックエリアのスタイルを定義 */
+    display: flex; /* Flexコンテナとして設定 */
+    flex-wrap: wrap; /* 複数行にわたってアイテムを折り返す */
+    background-color: #f3f3f3; /* 背景色 */
+    border: 1px solid #ccc; /* 境界線 */
+    border-radius: 4px; /* 角丸 */
+    padding: 10px; /* 内側の余白 */
+    min-height: 150px; /* 最小の高さ */
+    gap: 10px; /* アイテム間の間隔を設定 */
+  }
+  
+  .tracks {
+    display: flex; /* Flexboxを使用してアイテムを横に並べる */
+    flex-direction: row; /* アイテムを行方向に並べる */
+    align-items: flex-start; /* アイテムを上端に揃える */
+    overflow-x: auto; /* 横スクロールを有効にする */
+    white-space: nowrap; /* アイテムを折り返さないようにする */
+    padding: 10px; /* 余白を設定 */
+    gap: 10px; /* アイテム間の間隔を設定 */
+  }
+  
+  .track {
+    flex: 0 0 auto; /* フレックスアイテムとしての基本的な設定 */
+    background-color: #e1e1e1; /* 背景色 */
+    border: 1px solid #bbb; /* 境界線 */
+    border-radius: 3px; /* 角丸 */
+    margin-bottom: 5px; /* 下の余白 */
+    padding: 5px; /* 内側の余白 */
+    white-space: nowrap; /* テキストを折り返さない */
+    overflow: hidden; /* はみ出したテキストを隠す */
+    text-overflow: ellipsis; /* はみ出したテキストを省略記号で表示 */
+  }
+  
+  .directory {
+    font-weight: bold;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+  
+  .directory-container {
+    margin-left: 20px;
+    display: none; /* 初期状態では非表示 */
+  }
+  
+  .file {
+    cursor: pointer; /* ファイルをドラッグ可能にするためカーソルを変更 */
+    margin-left: 30px;
+  }
+  
+  .directory > .directory-container > .directory {
+    margin-left: 10px; /* サブディレクトリのインデント */
+  }
+  
+  .directory > .directory-container > .file {
+    margin-left: 20px; /* ファイルのインデント */
+  }

@@ -1,0 +1,27 @@
+<!-- create.html.erb -->
+<div class="container">
+  <div class="audio-selector">
+    <h3>音源選択</h3>
+    <div id="audio-files-tree">
+      <!-- ディレクトリ構造を動的に生成するJavaScriptコードをここに挿入 -->
+    </div>
+  </div>
+  <div class="tracks-area">
+    <h3>トラック</h3>
+    <div id="tracks" class="tracks">
+      <!-- ここにドラッグアンドドロップで音源を配置 -->
+    </div>
+  </div>
+</div>
+
+<%= javascript_pack_tag 'audio_files' %>
+
+<script>
+  // ユーザーのジェスチャーに応じてAudioContextを開始する
+  var audioContext;
+  document.body.addEventListener('click', function() {
+    audioContext = audioContext || new (window.AudioContext || window.webkitAudioContext)();
+    // AWSから音源ファイルのリストを取得し、それを画面に表示する
+    window.fetchAndDisplayAudioFiles(audioContext);
+  });
+</script>

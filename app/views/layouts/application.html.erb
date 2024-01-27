@@ -6,7 +6,7 @@
   <%= csp_meta_tag %>
 
   <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-  <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  <%= stylesheet_link_tag 'create', media: 'all', 'data-turbolinks-track': 'reload' %> <!-- create.cssを追加 -->
 </head>
 
 <body>
@@ -19,5 +19,7 @@
   <footer>
     <!-- フッターの内容 -->
   </footer>
+
+  <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
 </body>
 </html>
